@@ -17,9 +17,8 @@
     <description>慕课网SpringCloud-大道至简之演示模块</description>
 
     <modules>
-        <module>backend_show_provider</module>
         <module>bakcend_show_consumer</module>
-        <!--        <module>backend_show_consumer</module>-->
+        <module>bakcend_show_provider</module>
 <!--        <module>backend_show_hystrix</module>-->
 
 <!--        <module>backend_show_testng</module>-->

@@ -26,7 +26,7 @@
 <!--        <module>backend_api</module>-->
         <module>backend_common</module>
         <module>backend_utils</module>
-        <module>backend_euraka_server</module>
+        <module>backend_eureka_server</module>
         <module>bakcend_show</module>
     </modules>
 
