@@ -17,7 +17,6 @@
 
     <modules>
         <module>backend_user</module>
-<!--        <module>backend_film</module>-->
 <!--        <module>backend_cinema</module>-->
 <!--        <module>backend_hall</module>-->
 
@@ -28,6 +27,7 @@
         <module>backend_utils</module>
         <module>backend_eureka_server</module>
         <module>bakcend_show</module>
+        <module>backend_film</module>
     </modules>
 
     <properties>

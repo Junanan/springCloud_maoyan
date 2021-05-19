@@ -11,6 +11,8 @@ import org.springframework.web.client.RestTemplate;
  */
 @Configuration
 public class RestConfig {
+    // 这个注解告诉spring cloud 创建一个支持 Ribbon 的 RestTemplate
+//    @LoadBalanced
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
