@@ -8,8 +8,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * 影片主表 Mapper 接口
  * </p>
  *
- * @author june
- * @since 2021-05-19
+ * @author jiangzh
  */
 public interface MoocFilmInfoTMapper extends BaseMapper<MoocFilmInfoT> {
 

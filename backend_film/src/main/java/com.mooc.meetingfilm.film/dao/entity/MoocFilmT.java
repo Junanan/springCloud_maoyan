@@ -10,8 +10,7 @@ import java.io.Serializable;
  * 影片主表
  * </p>
  *
- * @author june
- * @since 2021-05-19
+ * @author jiangzh
  */
 public class MoocFilmT extends Model<MoocFilmT> {
 

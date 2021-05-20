@@ -9,9 +9,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>com.mooc.meetingfilm</groupId>
-    <artifactId>backend_film</artifactId>
+    <artifactId>backend-film</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>backend_film</name>
+    <name>backend-film</name>
     <description>慕课网影院模块</description>
 
     <properties>
@@ -23,11 +23,14 @@
             <groupId>com.mooc.meetingfilm</groupId>
             <artifactId>backend-common</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.mooc.meetingfilm</groupId>-->
-<!--            <artifactId>backend-api</artifactId>-->
-<!--        </dependency>-->
-
+        <dependency>
+            <groupId>com.mooc.meetingfilm</groupId>
+            <artifactId>backend-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>

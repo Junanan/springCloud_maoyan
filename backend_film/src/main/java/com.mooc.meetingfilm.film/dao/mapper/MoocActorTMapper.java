@@ -11,9 +11,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * 演员表 Mapper 接口
  * </p>
  *
- * @author june
- * @since 2021-05-19
+ * @author jiangzh
  */
 public interface MoocActorTMapper extends BaseMapper<MoocActorT> {
-    IPage<DescribeActorsRespVO> describeActors (Page<DescribeActorsRespVO> page);
+
+    IPage<DescribeActorsRespVO> describeActors(Page<DescribeActorsRespVO> page);
+
 }

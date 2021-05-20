@@ -8,8 +8,7 @@ import java.io.Serializable;
  * 影片与演员映射表
  * </p>
  *
- * @author june
- * @since 2021-05-19
+ * @author jiangzh
  */
 public class MoocFilmActorT extends Model<MoocFilmActorT> {
 

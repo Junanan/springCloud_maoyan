@@ -2,8 +2,8 @@ package com.mooc.meetingfilm.film.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Maps;
+import com.mooc.meetingfilm.apis.film.vo.DescribeFilmRespVO;
 import com.mooc.meetingfilm.film.controller.vo.DescribeActorsRespVO;
-import com.mooc.meetingfilm.film.controller.vo.DescribeFilmRespVO;
 import com.mooc.meetingfilm.film.controller.vo.DescribeFilmsRespVO;
 import com.mooc.meetingfilm.film.controller.vo.FilmSavedReqVO;
 import com.mooc.meetingfilm.film.service.FilmServiceAPI;
@@ -12,38 +12,42 @@ import com.mooc.meetingfilm.utils.common.vo.BaseResponseVO;
 import com.mooc.meetingfilm.utils.exception.CommonServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.Map;
 
 /**
- * @author yangjunnan
- * @date 2021/5/19
- */
+ * @author : jiangzh
+ * @program : com.mooc.meetingfilm.film.controller
+ * @description : 影片模块表现层
+ **/
 @Slf4j
 @RestController
 @RequestMapping(value = "/films")
 public class FilmController {
+
     @Autowired
     private FilmServiceAPI filmServiceAPI;
+
+    // 获取演员列表
     @RequestMapping(value = "/actors",method = RequestMethod.GET)
-    public BaseResponseVO describeActors(@RequestBody BasePageVO basePageVO) throws CommonServiceException {
+    public BaseResponseVO describeActors(BasePageVO basePageVO) throws CommonServiceException {
+        // 检查入参
         basePageVO.checkParam();
 
-        IPage<DescribeActorsRespVO> respVOIPage = filmServiceAPI.describeActors(basePageVO.getNowPage(), basePageVO.getPageSize());
-        Map<String, Object> actors = descrbePageResult(respVOIPage, "actors");
+        // 调用逻辑层，获取返回参数
+        IPage<DescribeActorsRespVO> results = filmServiceAPI.describeActors(basePageVO.getNowPage(),basePageVO.getPageSize());
+
+        Map<String, Object> actors = descrbePageResult(results, "actors");
 
         return BaseResponseVO.success(actors);
     }
+
     // 获取电影列表
     @RequestMapping(value = "",method = RequestMethod.GET)
-    public BaseResponseVO describeFilms(HttpServletRequest request, BasePageVO basePageVO) throws CommonServiceException {
+    public BaseResponseVO describeFilms(HttpServletRequest request,BasePageVO basePageVO) throws CommonServiceException {
         // Header信息都打印一下
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()){
@@ -85,6 +89,7 @@ public class FilmController {
 
         return BaseResponseVO.success();
     }
+
     // 获取分页对象的公共接口
     private Map<String,Object> descrbePageResult(IPage page, String title){
         Map<String,Object> result = Maps.newHashMap();
@@ -98,4 +103,5 @@ public class FilmController {
 
         return result;
     }
+
 }

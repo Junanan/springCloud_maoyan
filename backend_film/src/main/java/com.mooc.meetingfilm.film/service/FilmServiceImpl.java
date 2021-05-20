@@ -2,8 +2,8 @@ package com.mooc.meetingfilm.film.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.mooc.meetingfilm.apis.film.vo.DescribeFilmRespVO;
 import com.mooc.meetingfilm.film.controller.vo.DescribeActorsRespVO;
-import com.mooc.meetingfilm.film.controller.vo.DescribeFilmRespVO;
 import com.mooc.meetingfilm.film.controller.vo.DescribeFilmsRespVO;
 import com.mooc.meetingfilm.film.controller.vo.FilmSavedReqVO;
 import com.mooc.meetingfilm.film.dao.entity.MoocFilmActorT;
@@ -21,11 +21,13 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 
 /**
- * @author yangjunnan
- * @date 2021/5/19
- */
+ * @author : jiangzh
+ * @program : com.mooc.meetingfilm.film.service
+ * @description : 影片模块实现层
+ **/
 @Service
-public class FilmServiceImpl implements FilmServiceAPI {
+public class FilmServiceImpl implements FilmServiceAPI{
+
     @Resource
     private MoocActorTMapper actorTMapper;
 
@@ -37,6 +39,7 @@ public class FilmServiceImpl implements FilmServiceAPI {
 
     @Resource
     private MoocFilmActorTMapper filmActorTMapper;
+
 
     /**
      * @Description: 演员查询列表
@@ -63,11 +66,11 @@ public class FilmServiceImpl implements FilmServiceAPI {
 
 
     /**
-     * @Description: 根据主键获取电影详情
-     * @Param: [filmId]
-     * @return: com.mooc.meetingfilm.film.controller.vo.DescribeFilmRespVO
-     * @Author: jiangzh
-     */
+    * @Description: 根据主键获取电影详情
+    * @Param: [filmId]
+    * @return: com.mooc.meetingfilm.film.controller.vo.DescribeFilmRespVO
+    * @Author: jiangzh
+    */
     @Override
     public DescribeFilmRespVO describeFilmById(String filmId) throws CommonServiceException {
         return filmTMapper.descrbeFilmById(filmId);
@@ -75,11 +78,11 @@ public class FilmServiceImpl implements FilmServiceAPI {
 
 
     /**
-     * @Description: 保存电影信息
-     * @Param: [filmSavedReqVO]
-     * @return: void
-     * @Author: jiangzh
-     */
+    * @Description: 保存电影信息
+    * @Param: [filmSavedReqVO]
+    * @return: void
+    * @Author: jiangzh
+    */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveFilm(FilmSavedReqVO reqVO) throws CommonServiceException {
@@ -136,4 +139,6 @@ public class FilmServiceImpl implements FilmServiceAPI {
             throw new CommonServiceException(500, e.getMessage());
         }
     }
+
+
 }
