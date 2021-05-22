@@ -17,8 +17,8 @@
 
     <modules>
         <module>backend_user</module>
-<!--        <module>backend_cinema</module>-->
-<!--        <module>backend_hall</module>-->
+        <module>backend_cinema</module>
+        <module>backend_hall</module>
 
 <!--        <module>backend_gateway</module>-->
 <!--        <module>backend_apigw_zuul</module>-->

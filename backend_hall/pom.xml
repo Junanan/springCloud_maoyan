@@ -9,63 +9,38 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>com.mooc.meetingfilm</groupId>
-    <artifactId>backend-common</artifactId>
+    <artifactId>backend-hall</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>backend-common</name>
-    <description>慕课网Meeingfilm运营后台公共服务模块</description>
+    <name>backend-hall</name>
+    <description>慕课网猫眼项目播放厅模块</description>
 
     <properties>
         <java.version>1.8</java.version>
     </properties>
 
     <dependencies>
-        <!-- 公共工具类支持 -->
         <dependency>
             <groupId>com.mooc.meetingfilm</groupId>
-            <artifactId>backend-utils</artifactId>
+            <artifactId>backend-common</artifactId>
         </dependency>
-
-        <!-- mybatis-plus依赖 -->
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
-
-        <!-- Druid引入 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-        </dependency>
-
-        <!-- 数据源驱动 -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-
-        <!-- 代码生成器依赖 -->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId>
+            <groupId>com.mooc.meetingfilm</groupId>
+            <artifactId>backend-api</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.ibeetl</groupId>
-            <artifactId>beetl</artifactId>
-        </dependency>
-
-        <!-- 日志框架依赖 -->
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
     </dependencies>
 
     <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
         <!-- 资源引入 -->
         <resources>
             <resource>
@@ -80,4 +55,5 @@
             </resource>
         </resources>
     </build>
+
 </project>
