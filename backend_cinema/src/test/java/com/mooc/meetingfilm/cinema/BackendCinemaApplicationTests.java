@@ -1,10 +1,10 @@
-package com.mooc.meetingfilm.film;
+package com.mooc.meetingfilm.cinema;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BackendFilmApplicationTests {
+class BackendCinemaApplicationTests {
 
     @Test
     void contextLoads() {
