@@ -18,12 +18,12 @@ public class consumerServiceImpl implements ConsumerServiceAPI {
     private LoadBalancerClient eurekaClient;
     @Override
     public String sayHello(String message) {
-        ServiceInstance choose = eurekaClient.choose("hello-service-provider");
+//        ServiceInstance choose = eurekaClient.choose("hello-service-provider");
 
-        String hostname = choose.getHost();
-        int port = choose.getPort();
+//        String hostname = choose.getHost();
+//        int port = choose.getPort();
         String uri = "/provider/sayhello?message="+message;
-        String url = "http://"+hostname+":"+port+uri;
+        String url = "http://hello-service-provider"+uri;
 
 
         // invoker provider test
