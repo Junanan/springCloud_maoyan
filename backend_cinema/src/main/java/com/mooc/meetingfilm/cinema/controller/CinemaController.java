@@ -46,7 +46,7 @@ public class CinemaController {
         fallback是业务处理的保底方案，尽可能保证这个保底方案一定能成功
      */
     public BaseResponseVO fallbackMethod(BasePageVO basePageVO) throws CommonServiceException{
-        /*
+        /* 保底例子
             打发票， -》 没打印纸了， 换台机器或者下次再试
             -》 触发告警 -》 告知运维人员，打印发票业务挂了
          */
@@ -57,14 +57,17 @@ public class CinemaController {
         // fallback就在数据库中查询真实的影院信息
 
         // 返回一定是成功，或者业务处理失败
-        return BaseResponseVO.success();
+        Map<String,Object> map = Maps.newHashMap();
+        map.put("code","500");
+        map.put("message","请求处理降级返回");
+        return BaseResponseVO.success(map);
     }
-
+    //fallbackMethod对应上面的方法
     @HystrixCommand(fallbackMethod = "fallbackMethod",
         commandProperties = {
-                @HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
-                @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value= "1000"),
-                @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
+                @HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"), // 隔离方法
+                @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value= "1000"), // 存活时间
+                @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),//滚动窗口中将使断路器跳闸的最小请求数量
                 @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50")
         },
         threadPoolProperties = {
@@ -74,19 +77,18 @@ public class CinemaController {
                 @HystrixProperty(name = "queueSizeRejectionThreshold", value = "8"),
                 @HystrixProperty(name = "metrics.rollingStats.numBuckets", value = "12"),
                 @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value = "1500")
-    },ignoreExceptions = CommonServiceException.class)
+    },ignoreExceptions = CommonServiceException.class) // 无视异常
     @RequestMapping(value = "",method = RequestMethod.GET)
     public BaseResponseVO describeCinemas(BasePageVO basePageVO) throws CommonServiceException {
 
         IPage<DescribeCinemasRespVO> describeCinemasRespVOIPage = cinemaServiceAPI.describeCinemas(basePageVO.getNowPage(), basePageVO.getPageSize());
 
         if(basePageVO.getNowPage()>10000){
-            throw new CommonServiceException(400,"nowPage太大了，不支持此处理");
-//            try {
-//                Thread.sleep(2000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         // TODO 调用封装的分页返回方法

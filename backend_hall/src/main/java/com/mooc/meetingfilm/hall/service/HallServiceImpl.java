@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mooc.meetingfilm.apis.film.vo.DescribeFilmRespVO;
 //import com.mooc.meetingfilm.hall.apis.FilmFeignApi;
+import com.mooc.meetingfilm.hall.apis.FilmFeignApi;
 import com.mooc.meetingfilm.hall.controller.vo.HallSavedReqVO;
 import com.mooc.meetingfilm.hall.controller.vo.HallsReqVO;
 import com.mooc.meetingfilm.hall.controller.vo.HallsRespVO;
@@ -44,8 +45,8 @@ public class HallServiceImpl implements HallServiceAPI{
     @Autowired
     private LoadBalancerClient eurekaClient;
 
-//    @Resource
-//    private FilmFeignApi filmFeignApi;
+    @Resource
+    private FilmFeignApi filmFeignApi;
 
     /**
     * @Description: 查询影厅列表
@@ -94,66 +95,68 @@ public class HallServiceImpl implements HallServiceAPI{
         hallFilmInfoTMapper.insert(hallFilmInfo);
     }
 
-
-//    // 播放厅对应的影片数据， 影片冗余数据， 缓存里有一份
-//    private MoocHallFilmInfoT describeFilmInfo(String filmId) throws CommonServiceException{
-//        // 解析返回值
-//        BaseResponseVO<DescribeFilmRespVO> baseResponseVO = filmFeignApi.describeFilmById(filmId);
-//        DescribeFilmRespVO filmResult = baseResponseVO.getData();
-//        if(filmResult ==null || ToolUtils.strIsNull(filmResult.getFilmId())){
-//            throw new CommonServiceException(404,"抱歉，未能找到对应的电影信息，filmId : "+filmId);
-//        }
-//
-//        // 组织参数
-//        MoocHallFilmInfoT hallFilmInfo = new MoocHallFilmInfoT();
-//
-//        hallFilmInfo.setFilmId(ToolUtils.str2Int(filmResult.getFilmId()));
-//        hallFilmInfo.setFilmName(filmResult.getFilmName());
-//        hallFilmInfo.setFilmLength(filmResult.getFilmLength());
-//        hallFilmInfo.setFilmCats(filmResult.getFilmCats());
-//        hallFilmInfo.setActors(filmResult.getActors());
-//        hallFilmInfo.setImgAddress(filmResult.getImgAddress());
-//
-//        return hallFilmInfo;
-//    }
-
+//    使用Feign继承  不使用restTemplte
     // 播放厅对应的影片数据， 影片冗余数据， 缓存里有一份
     private MoocHallFilmInfoT describeFilmInfo(String filmId) throws CommonServiceException{
-        // GET REGISTER
-        ServiceInstance choose = eurekaClient.choose("film-service");
-        // 组织调用参数
-        String hostname = choose.getHost();
-        int port = choose.getPort();
-
-        String uri = "/films/"+filmId;
-
-        String url = "http://"+hostname+":"+port + uri;
-
-        // 通过restTemplate调用影片服务
-        JSONObject baseResponseVO = restTemplate.getForObject(url, JSONObject.class);
-
         // 解析返回值
-        JSONObject dataJson = baseResponseVO.getJSONObject("data");
+        BaseResponseVO<DescribeFilmRespVO> baseResponseVO = filmFeignApi.describeFilmById(filmId);
+        DescribeFilmRespVO filmResult = baseResponseVO.getData();
+        if(filmResult ==null || ToolUtils.strIsNull(filmResult.getFilmId())){
+            throw new CommonServiceException(404,"抱歉，未能找到对应的电影信息，filmId : "+filmId);
+        }
 
         // 组织参数
         MoocHallFilmInfoT hallFilmInfo = new MoocHallFilmInfoT();
 
-//        "filmId":"1",
-//        "filmName":"我不是药神",
-//        "filmLength":"132",
-//        "filmCats":"喜剧,剧情",
-//        "actors":"程勇,曹斌,吕受益,刘思慧",
-//        "imgAddress":"films/238e2dc36beae55a71cabfc14069fe78236351.jpg",
-
-        hallFilmInfo.setFilmId(dataJson.getIntValue("filmId"));
-        hallFilmInfo.setFilmName(dataJson.getString("filmName"));
-        hallFilmInfo.setFilmLength(dataJson.getString("filmLength"));
-        hallFilmInfo.setFilmCats(dataJson.getString("filmCats"));
-        hallFilmInfo.setActors(dataJson.getString("actors"));
-        hallFilmInfo.setImgAddress(dataJson.getString("imgAddress"));
+        hallFilmInfo.setFilmId(ToolUtils.str2Int(filmResult.getFilmId()));
+        hallFilmInfo.setFilmName(filmResult.getFilmName());
+        hallFilmInfo.setFilmLength(filmResult.getFilmLength());
+        hallFilmInfo.setFilmCats(filmResult.getFilmCats());
+        hallFilmInfo.setActors(filmResult.getActors());
+        hallFilmInfo.setImgAddress(filmResult.getImgAddress());
 
         return hallFilmInfo;
     }
+
+        //不使用Feign继承
+
+//    // 播放厅对应的影片数据， 影片冗余数据， 缓存里有一份
+//    private MoocHallFilmInfoT describeFilmInfo(String filmId) throws CommonServiceException{
+//        // GET REGISTER
+//        ServiceInstance choose = eurekaClient.choose("film-service");
+//        // 组织调用参数
+//        String hostname = choose.getHost();
+//        int port = choose.getPort();
+//
+//        String uri = "/films/"+filmId;
+//
+//        String url = "http://"+hostname+":"+port + uri;
+//
+//        // 通过restTemplate调用影片服务
+//        JSONObject baseResponseVO = restTemplate.getForObject(url, JSONObject.class);
+//
+//        // 解析返回值
+//        JSONObject dataJson = baseResponseVO.getJSONObject("data");
+//
+//        // 组织参数
+//        MoocHallFilmInfoT hallFilmInfo = new MoocHallFilmInfoT();
+//
+////        "filmId":"1",
+////        "filmName":"我不是药神",
+////        "filmLength":"132",
+////        "filmCats":"喜剧,剧情",
+////        "actors":"程勇,曹斌,吕受益,刘思慧",
+////        "imgAddress":"films/238e2dc36beae55a71cabfc14069fe78236351.jpg",
+//
+//        hallFilmInfo.setFilmId(dataJson.getIntValue("filmId"));
+//        hallFilmInfo.setFilmName(dataJson.getString("filmName"));
+//        hallFilmInfo.setFilmLength(dataJson.getString("filmLength"));
+//        hallFilmInfo.setFilmCats(dataJson.getString("filmCats"));
+//        hallFilmInfo.setActors(dataJson.getString("actors"));
+//        hallFilmInfo.setImgAddress(dataJson.getString("imgAddress"));
+//
+//        return hallFilmInfo;
+//    }
 
 
 }
