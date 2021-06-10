@@ -19,7 +19,7 @@ public class ZuulConfig {
         return new MyFilter();
     }
     @Bean
-    public JWTFilter initJWTFilter(){
+    public JWTFilter initJWTFilter() {
         return new JWTFilter();
     }
 }
